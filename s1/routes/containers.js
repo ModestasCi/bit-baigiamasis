@@ -70,3 +70,5 @@ router.post(
         res.status(201).json({ id: result.insertId, weight, product_name, product_image, is_flammable, is_perishable, container_id: containerId });
     }
 );
+
+module.exports = router;

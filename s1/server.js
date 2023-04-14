@@ -1,21 +1,22 @@
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const path = require('path');
 const app = express();
+// const mysql = require('mysql2');
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-});
+// const db = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: '',
+// });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('MySQL connected');
-});
+// db.connect((err) => {
+//   if (err) throw err;
+//   console.log('MySQL connected');
+// });
+const db = require('./db');
 
 app.use(express.json());
 app.use(cors());
@@ -29,13 +30,12 @@ app.use(
 );
 
 const authRoutes = require('./routes/auth');
-// const containersRouter = require('./routes/containers');
-// const boxesRouter = require('./routes/boxes');
+const containersRouter = require('./routes/containers');
+const boxesRouter = require('./routes/boxes');
 
-
-// app.use('/containers', containersRouter);
-// app.use('/boxes', boxesRouter);
 app.use('/auth', authRoutes);
+app.use('/containers', containersRouter);
+app.use('/boxes', boxesRouter);
 
 app.listen(3001, () => {
   console.log('Server started on port 3001');
