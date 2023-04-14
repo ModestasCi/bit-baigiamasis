@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const path = require('path');
 const app = express();
+// const authRoutes = require('./routes/auth');
 // const mysql = require('mysql2');
 
 // const db = mysql.createConnection({
@@ -63,11 +64,20 @@ const createDatabaseAndTables = async () => {
       FOREIGN KEY (container_id) REFERENCES containers(id) ON DELETE CASCADE
     );
   `;
+  const createUsersTableQuery = `
+    CREATE TABLE IF NOT EXISTS users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(255) NOT NULL UNIQUE,
+      password VARCHAR(255) NOT NULL,
+      is_admin BOOLEAN NOT NULL DEFAULT 0
+    );
+  `;
 
   await db.promise().query(createDatabaseQuery);
   await db.changeUser({ database: 'container_management' });
   await db.promise().query(createContainersTableQuery);
   await db.promise().query(createBoxesTableQuery);
+  await db.promise().query(createUsersTableQuery);
 };
 
 createDatabaseAndTables();

@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { check, validationResult } = require('express-validator');
+const db = require('../db');
+
 
 const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD_HASH = '$2b$10$BcXkJ9DYtIUVv8KQ2t54J.ytM2QKj7YI8WyTmJZjtR1X9pgm7.8Pm'; //hashed slaptazodis 'admin123' arba '123'
+const ADMIN_PASSWORD_HASH = '$2b$10$TBzQDO6HEA6EY/rNWxhJD.Ih81FE6FYMTrKLzbVBmH1rG9JWySfZ6'; //hashed slaptazodis 'admin123' arba '123'
 
 function isAuthenticated(req, res, next) {
     if (req.session.loggedin) {
